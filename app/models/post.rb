@@ -2,14 +2,28 @@ class Post < ApplicationRecord
     validates :title, presence: true
     validates :content, length: { minimum: 250 }
     validates :summary, length: { maximum: 250 }
-    # validates :category, inclusion: { in: ['fiction' 'non-fiction'] }
+    validates :category, inclusion: { in: ['Fiction', 'Non-Fiction'] }
 
-    # validates :clickbait-y
+    validate :clickbait_y
 
-    # def clickbait-y
-    #     if :title.present?
-    #         inclusion: { in: %w(fiction non-fiction) }
-    #     end
-    # end
+    def clickbait_y
+        # byebug
+        arry_of_stuff = ["Won't Believe", "Secret", "Top", "Guess"]
+        results = false
+
+        if title != nil
+            arry_of_stuff.each do |string|
+                if title.include?(string)
+                    results = true
+                end
+            end
+        
+        
+            if results == false
+                errors.add(:title, "Not clickbait-y")
+            end
+        end
+        
+    end
 
 end
